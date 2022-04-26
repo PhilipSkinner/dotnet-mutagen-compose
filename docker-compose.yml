@@ -1,0 +1,26 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      context: ./src
+      dockerfile: ../docker/app.dockerfile
+    volumes:
+      - "srcapp:/src/app"
+    ports:
+      - "3000:3000"
+
+volumes:
+  srcapp:
+
+x-mutagen:
+  sync:
+    defaults:
+      mode: one-way-safe
+      probeMode: assume
+      scanMode: accelerated
+      ignore:
+        vcs: true
+    app:
+      alpha: "./src/app"
+      beta: "volume://srcapp"
